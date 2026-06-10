@@ -1,0 +1,6 @@
+AI_REVIEW.md
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
