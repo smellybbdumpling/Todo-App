@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="一个可部署到 GitHub Pages 或 Vercel 的纯前端 Todo App。">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <main class="app-shell">
+        <section class="workspace" aria-labelledby="app-title">
+            <header class="workspace-header">
+                <div>
+                    <p class="eyebrow">Todo App</p>
+                    <h1 id="app-title">把今天的事处理清楚</h1>
+                </div>
+                <div class="clock-card" aria-label="当前日期和时间">
+                    <div class="date-stack">
+                        <span id="current-day">Today</span>
+                        <strong id="current-date">--</strong>
+                    </div>
+                    <div class="time-stack" aria-label="当前时间">
+                        <span>当前时间</span>
+                        <strong id="current-time">--:--:--</strong>
+                    </div>
+                </div>
+            </header>
+
+            <section class="composer" aria-label="新增待办">
+                <form id="todo-form" class="composer-form" novalidate>
+                    <div class="input-group title-field">
+                        <label for="todo-title">标题</label>
+                        <input id="todo-title" name="title" type="text" maxlength="120" autocomplete="off" placeholder="输入一个明确的任务">
+                    </div>
+                    <div class="input-group notes-field">
+                        <label for="todo-notes">备注</label>
+                        <input id="todo-notes" name="notes" type="text" maxlength="500" autocomplete="off" placeholder="可选，例如地点、材料或下一步">
+                    </div>
+                    <button class="primary-action" type="submit">添加</button>
+                    <p id="form-error" class="field-error" role="alert" aria-live="polite"></p>
+                </form>
+            </section>
+
+            <section class="control-panel" aria-label="待办控制">
+                <div class="search-box">
+                    <label class="visually-hidden" for="todo-search">搜索待办</label>
+                    <input id="todo-search" type="search" placeholder="搜索标题或备注">
+                </div>
+
+                <div class="filter-tabs" role="group" aria-label="状态筛选">
+                    <button type="button" class="filter-tab is-active" data-filter="all">全部</button>
+                    <button type="button" class="filter-tab" data-filter="active">进行中</button>
+                    <button type="button" class="filter-tab" data-filter="completed">已完成</button>
+                </div>
+
+                <button id="clear-completed" class="ghost-action" type="button">清除已完成</button>
+            </section>
+
+            <section class="stats-grid" aria-label="待办统计">
+                <article class="stat-item">
+                    <span>全部</span>
+                    <strong id="total-count">0</strong>
+                </article>
+                <article class="stat-item">
+                    <span>进行中</span>
+                    <strong id="active-count">0</strong>
+                </article>
+                <article class="stat-item">
+                    <span>已完成</span>
+                    <strong id="completed-count">0</strong>
+                </article>
+            </section>
+
+            <section class="list-section" aria-label="待办列表">
+                <div id="todo-list" class="todo-list"></div>
+                <div id="empty-state" class="empty-state" hidden>
+                    <h2 id="empty-title">暂无待办</h2>
+                    <p id="empty-copy">添加第一条任务，或调整搜索和筛选条件。</p>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <template id="todo-template">
+        <article class="todo-item">
+            <button class="check-action" type="button" aria-label="切换完成状态">
+                <span></span>
+            </button>
+            <div class="todo-content">
+                <h2 class="todo-title"></h2>
+                <div class="todo-detail" hidden>
+                    <div class="detail-block">
+                        <span>标题</span>
+                        <p class="detail-title"></p>
+                    </div>
+                    <div class="detail-block detail-notes-block">
+                        <span>备注</span>
+                        <p class="detail-notes"></p>
+                    </div>
+                    <time></time>
+                </div>
+                <form class="edit-form" hidden>
+                    <label>
+                        <span>标题</span>
+                        <input class="edit-title" type="text" maxlength="120">
+                    </label>
+                    <label>
+                        <span>备注</span>
+                        <textarea class="edit-notes" maxlength="500" rows="3"></textarea>
+                    </label>
+                    <div class="edit-actions">
+                        <button class="secondary-action save-edit" type="submit">保存</button>
+                        <button class="quiet-action cancel-edit" type="button">取消</button>
+                    </div>
+                </form>
+            </div>
+            <div class="item-actions">
+                <button class="detail-action" type="button" aria-label="查看详情" title="查看详情">查看详情</button>
+                <button class="icon-action edit-action" type="button" aria-label="编辑待办" title="编辑">编辑</button>
+                <button class="icon-action delete-action" type="button" aria-label="删除待办" title="删除">删除</button>
+            </div>
+        </article>
+    </template>
+
+    <script src="./app.js" defer></script>
+</body>
+</html>
